@@ -189,6 +189,23 @@ export function useGame() {
     }
   };
 
+  const restartGame = () => {
+    setGameState(prev => ({
+      gold: 0,
+      level: 1,
+      maxLevel: prev.maxLevel,
+      evolution: 1,
+      health: 100,
+      maxHealth: 100,
+      strength: 10,
+      energy: 100,
+      maxEnergy: 100,
+      enemyHP: LEVELS[0].enemyHP,
+      maxEnemyHP: LEVELS[0].enemyHP,
+      gameStatus: 'playing',
+    }));
+  };
+
   return {
     gameState,
     currentLevelData,
