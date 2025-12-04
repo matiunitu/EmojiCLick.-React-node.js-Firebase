@@ -163,7 +163,7 @@ export function useGame() {
   };
 
   const recoverEnergy = () => {
-    const cost = 0;
+    const cost = 50;
     if (gameState.gold >= cost) {
       setGameState(prev => ({
         ...prev,
@@ -171,23 +171,6 @@ export function useGame() {
         energy: prev.maxEnergy
       }));
     }
-  };
-
-  const restartGame = () => {
-    setGameState(prev => ({
-      ...prev,
-      gold: 0,
-      level: 1,
-      evolution: 1,
-      health: 100,
-      maxHealth: 100,
-      strength: 10,
-      energy: 100,
-      maxEnergy: 100,
-      enemyHP: LEVELS[0].enemyHP,
-      maxEnemyHP: LEVELS[0].enemyHP,
-      gameStatus: 'playing',
-    }));
   };
 
   return {

@@ -3,7 +3,7 @@ import React from 'react';
 export function Controls({ actions, gameState }) {
     const strengthCost = (gameState.strength - 10) * 2 + 30;
     const healthCost = (gameState.maxHealth - 100) / 2 + 30;
-    const recoverCost = "free";
+    const recoverCost = 50;
 
     return (
         <div className="controls-panel">
