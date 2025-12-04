@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { saveUserProfile } from '../services/db';
+import { saveUserProfile, getUserProfile } from '../services/db';
 
 const LEVELS = Array.from({ length: 10 }, (_, i) => ({
   level: i + 1,
@@ -35,6 +35,22 @@ export function useGame() {
     maxEnemyHP: LEVELS[0].enemyHP,
     gameStatus: 'playing', // playing, gameover, victory
   });
+
+  // Load maxLevel from DB
+  useEffect(() => {
+    async function loadProfile() {
+      if (currentUser && !currentUser.isGuest) {
+        const profile = await getUserProfile(currentUser.uid);
+        if (profile && profile.maxLevel) {
+          setGameState(prev => ({
+            ...prev,
+            maxLevel: Math.max(prev.maxLevel, profile.maxLevel)
+          }));
+        }
+      }
+    }
+    loadProfile();
+  }, [currentUser]);
 
   const currentLevelData = LEVELS[gameState.level - 1];
 
