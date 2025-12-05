@@ -10,7 +10,7 @@ export function Auth() {
     const [username, setUsername] = useState('');
     const [error, setError] = useState('');
     const [loading, setLoading] = useState(false);
-    const { login, signup, loginAsGuest } = useAuth();
+    const { login, signup, loginWithGoogle, loginAnonymously } = useAuth();
 
     async function handleSubmit(e) {
         e.preventDefault();
@@ -32,6 +32,30 @@ export function Auth() {
         }
 
         setLoading(false);
+    }
+
+    async function handleGoogleLogin() {
+        try {
+            setError('');
+            setLoading(true);
+            await loginWithGoogle();
+        } catch (err) {
+            setError('Failed to log in with Google: ' + err.message);
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    async function handleAnonymousLogin() {
+        try {
+            setError('');
+            setLoading(true);
+            await loginAnonymously();
+        } catch (err) {
+            setError('Failed to log in anonymously: ' + err.message);
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
@@ -77,8 +101,22 @@ export function Auth() {
                     </button>
                 </form>
 
-                <button disabled={loading} onClick={loginAsGuest} className="btn auth-btn guest-btn">
-                    Play as Guest
+                <button
+                    disabled={loading}
+                    onClick={handleGoogleLogin}
+                    className="btn auth-btn"
+                    style={{ marginTop: '10px', backgroundColor: '#4285F4' }}
+                >
+                    Sign in with Google
+                </button>
+
+                <button
+                    disabled={loading}
+                    onClick={handleAnonymousLogin}
+                    className="btn auth-btn guest-btn"
+                    style={{ marginTop: '10px' }}
+                >
+                    Play Anonymously
                 </button>
 
                 <div className="auth-toggle">

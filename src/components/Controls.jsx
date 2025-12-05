@@ -3,7 +3,7 @@ import React from 'react';
 export function Controls({ actions, gameState }) {
     const strengthCost = (gameState.strength - 10) * 2 + 30;
     const healthCost = (gameState.maxHealth - 100) / 2 + 30;
-    const recoverCost = 50;
+    const recoverCost = "free";
 
     return (
         <div className="controls-panel">
@@ -34,12 +34,11 @@ export function Controls({ actions, gameState }) {
             <button
                 className="btn recover-btn"
                 onClick={actions.recoverEnergy}
-                disabled={gameState.gold < recoverCost}
             >
                 <span className="icon">⚡</span>
                 <div className="btn-text">
                     <span>Recover</span>
-                    <span className="cost">💰 {recoverCost}</span>
+                    <span className="cost">Free</span>
                 </div>
             </button>
         </div>

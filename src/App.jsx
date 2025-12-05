@@ -47,7 +47,7 @@ function Game() {
             <header className="game-header">
                 <h1>Emoji Clicker</h1>
                 <div className="user-info">
-                    <span>{currentUser.email}</span>
+                    <span>{currentUser.isAnonymous ? 'Anonymous' : currentUser.email}</span>
                     <button className="btn-small" onClick={() => navigate('/leaderboard')}>🏆</button>
                     <button className="btn-small" onClick={() => setShowProfile(true)}>Profile</button>
                     <button className="btn-small" onClick={logout}>Sign Out</button>

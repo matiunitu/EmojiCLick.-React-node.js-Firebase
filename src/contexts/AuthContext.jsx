@@ -4,7 +4,10 @@ import {
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     signOut,
-    onAuthStateChanged
+    onAuthStateChanged,
+    GoogleAuthProvider,
+    signInWithPopup,
+    signInAnonymously
 } from 'firebase/auth';
 
 const AuthContext = createContext();
@@ -25,11 +28,16 @@ export function AuthProvider({ children }) {
         return signInWithEmailAndPassword(auth, email, password);
     }
 
+    function loginWithGoogle() {
+        const provider = new GoogleAuthProvider();
+        return signInWithPopup(auth, provider);
+    }
+
+    function loginAnonymously() {
+        return signInAnonymously(auth);
+    }
+
     function logout() {
-        if (currentUser?.isGuest) {
-            setCurrentUser(null);
-            return Promise.resolve();
-        }
         return signOut(auth);
     }
 
@@ -46,8 +54,9 @@ export function AuthProvider({ children }) {
         currentUser,
         signup,
         login,
-        logout,
-        loginAsGuest: () => setCurrentUser({ isGuest: true, email: 'Guest' })
+        loginWithGoogle,
+        loginAnonymously,
+        logout
     };
 
     return (

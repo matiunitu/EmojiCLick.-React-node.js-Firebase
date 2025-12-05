@@ -39,7 +39,7 @@ export function useGame() {
   // Load maxLevel from DB
   useEffect(() => {
     async function loadProfile() {
-      if (currentUser && !currentUser.isGuest) {
+      if (currentUser && !currentUser.isAnonymous) {
         const profile = await getUserProfile(currentUser.uid);
         if (profile && profile.maxLevel) {
           setGameState(prev => ({
@@ -108,7 +108,7 @@ export function useGame() {
 
         if (victory) {
           const timeTaken = (Date.now() - startTime) / 1000; // seconds
-          if (currentUser && !currentUser.isGuest) {
+          if (currentUser && !currentUser.isAnonymous) {
             saveUserProfile(currentUser.uid, { speedrunTime: timeTaken });
           }
           return { ...prev, enemyHP: 0, gameStatus: 'victory' };
@@ -119,7 +119,7 @@ export function useGame() {
         const newMaxLevel = (nextEvolution - 1) * 10 + nextLevel;
 
         if (newMaxLevel > prev.maxLevel) {
-          if (currentUser && !currentUser.isGuest) {
+          if (currentUser && !currentUser.isAnonymous) {
             saveUserProfile(currentUser.uid, { maxLevel: newMaxLevel });
           }
         }
@@ -179,14 +179,10 @@ export function useGame() {
   };
 
   const recoverEnergy = () => {
-    const cost = 50;
-    if (gameState.gold >= cost) {
-      setGameState(prev => ({
-        ...prev,
-        gold: prev.gold - cost,
-        energy: prev.maxEnergy
-      }));
-    }
+    setGameState(prev => ({
+      ...prev,
+      energy: prev.maxEnergy
+    }));
   };
 
   const restartGame = () => {

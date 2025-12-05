@@ -9,7 +9,7 @@ export function Profile({ onClose }) {
 
     useEffect(() => {
         async function fetchProfile() {
-            if (currentUser && !currentUser.isGuest) {
+            if (currentUser && !currentUser.isAnonymous) {
                 const data = await getUserProfile(currentUser.uid);
                 setProfile(data);
             }
@@ -31,7 +31,7 @@ export function Profile({ onClose }) {
                 <div className="profile-content">
                     <div className="profile-item">
                         <span className="label">Username:</span>
-                        <span className="value">{currentUser.displayName || currentUser.email}</span>
+                        <span className="value">{currentUser.isAnonymous ? 'Anonymous' : (currentUser.displayName || currentUser.email)}</span>
                     </div>
 
                     <div className="profile-item">
